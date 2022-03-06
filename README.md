@@ -1,5 +1,5 @@
 # Wind Proposal
-Wind will be a fitness/running app whose main feature will make running routes for users based on their location or a specific starting point. Wind will also have user and social features such as: setting a route as a user's favorite, commenting on public/featured routes, and organizing running events. 
+Wind will be a fitness/running app whose main feature will make running routes for users based on their location or a specific starting point. Wind will also have user and social features such as: setting a route as a user's favorite, seeing featured places to run, and organizing running events. 
 
 ## Wireframes
 ### App Screens
