@@ -28,7 +28,8 @@ const AppScreens = () => {
     useEffect(() => {
         tryLocalSignin();
     }, []);
-
+    console.log("TOKEN CHECK -----------------------")
+    console.log(token);
     return (
         <Stack.Navigator>
             {token === null ? (

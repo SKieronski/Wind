@@ -1,12 +1,13 @@
 import React from 'react';
-import {View, Text, StyleSheet} from 'react-native';
-import { Button } from 'react-native-elements';
+import {StyleSheet} from 'react-native';
+import { SafeAreaView } from 'react-navigation';
+import Map from '../components/Map';
+
 const RunRouteCreateScreen = ({navigation}) => {
     return (
-        <View >
-            <Text>RunRouteCreateScreen</Text>
-            <Button title="GOTO List" onPress={() => navigation.navigate('RunRoutesList')} />
-        </View>
+        <SafeAreaView >
+            <Map />
+        </SafeAreaView>
     )
 }
 
