@@ -1,7 +1,5 @@
 import React, {useContext, useEffect} from 'react';
 import {View, StyleSheet} from 'react-native';
-import { Button } from 'react-native-elements';
-import { NavigationEvents } from 'react-navigation';
 import AuthForm from '../components/AuthForm';
 import { Context as AuthContext } from '../context/AuthContext';
 import NavLink from '../components/NavLink';
@@ -16,13 +14,13 @@ const SignUpScreen = ({navigation}) => {
     }, [navigation]);
 
     return (
-        <View >
+        <View style={styles.container} >
             {/* <Button title="GOTO Signin" onPress={() => navigation.navigate('Signin')} /> */}
             <AuthForm
                 headerText = "Sign Up for Wind"
                 errorMessage={state.errorMessage}
                 submitButtonText="Sign Up"
-                onSubmit={({email, password}) => signup({email,password})}
+                onSubmit={({email, password}) => signup(email,password)}
             />
             <NavLink 
                 navigation={navigation}
@@ -37,7 +35,8 @@ const styles = StyleSheet.create({
     container: {
         flex: 1, 
         justifyContent: 'center',
-        marginBottom: 100
+        marginBottom: 200,
+        alignItems: 'center'
     },
 })
 

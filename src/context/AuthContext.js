@@ -19,7 +19,7 @@ const authReducer = (state, action) => {
 
 //Sign a user up to our DB and if successful, give them a token
 const signup = (dispatch) => {
-    return async ({email, password}) => {
+    return async (email, password) => {
         try {
             const response = await windApi.post('/signup', {email, password})
             
