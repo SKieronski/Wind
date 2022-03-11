@@ -1,4 +1,4 @@
-import React, {useContext} from 'react'
+import React, {useContext, useEffect} from 'react'
 import RunRouteCreateScreen from "./RunRouteCreateScreen"
 import RunRoutesDetailsScreen from "./RunRoutesDetailsScreen"
 import RunRoutesListScreen from "./RunRoutesListScreen"
@@ -23,8 +23,12 @@ const MyTabs = () => {
 }
 
 const AppScreens = () => {
-    const {state: {token}} = useContext(AuthContext)
-    
+    const {state: {token}, tryLocalSignin} = useContext(AuthContext);
+
+    useEffect(() => {
+        tryLocalSignin();
+    }, []);
+
     return (
         <Stack.Navigator>
             {token === null ? (
