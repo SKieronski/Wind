@@ -1,9 +1,10 @@
+import {GOOGLE_MAPS_API_KEY} from '@env'
 import React, {useContext} from 'react';
-import { StyleSheet } from 'react-native';
-import MapView, {PROVIDER_GOOGLE} from 'react-native-maps';
+import { StyleSheet, Dimensions } from 'react-native';
+import MapView, {PROVIDER_GOOGLE, Marker} from 'react-native-maps';
 import MapViewDirections from 'react-native-maps-directions';
 
-const GOOGLE_MAPS_APIKEY = 'AIzaSyDD-zJvuFYllxvpWbNVZa5urbVW-y0WDx4'
+const {height, width} = Dimensions.get('window');
 
 const Map = () => {
     const initialLocation = {
@@ -18,27 +19,33 @@ const Map = () => {
     return (
         <MapView
             provider={PROVIDER_GOOGLE}
-            style={styles.map}
+            style={{height: height, width: width}}
             initialRegion={{
                 ...initialLocation,
                 latitudeDelta: 0.01,
                 longitudeDelta: 0.01
             }}
         >
+            <Marker
+                coordinate={initialLocation}
+            />
+            <Marker 
+                coordinate={destination}
+            />
             <MapViewDirections
                 origin={initialLocation}
                 destination={destination}
-                apikey={GOOGLE_MAPS_APIKEY}
+                apikey={GOOGLE_MAPS_API_KEY}
                 mode="WALKING"
+                strokeWidth={3}
+                strokeColor="rgba(0,0,255,1)"
             />
         </MapView>
     )
 }
 
 const styles = StyleSheet.create({
-    map: {
-        height: 300,
-    }
+    
 })
 
 export default Map;

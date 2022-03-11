@@ -28,8 +28,7 @@ const AppScreens = () => {
     useEffect(() => {
         tryLocalSignin();
     }, []);
-    console.log("TOKEN CHECK -----------------------")
-    console.log(token);
+
     return (
         <Stack.Navigator>
             {token === null ? (
@@ -38,7 +37,7 @@ const AppScreens = () => {
                     <Stack.Screen name="Signin" component={SignInScreen} options={{headerShown: false}}/>
                 </>
             ) : (
-                <Stack.Screen name="LoggedIn" component={MyTabs} />
+                <Stack.Screen name="LoggedIn" component={MyTabs} options={{headerShown: false}} />
             )}
         </Stack.Navigator>
     )
