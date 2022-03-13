@@ -3,6 +3,7 @@ import React, {useContext, useEffect, useState} from 'react';
 import { StyleSheet, Dimensions } from 'react-native';
 import MapView, {PROVIDER_GOOGLE, Marker} from 'react-native-maps';
 import MapViewDirections from 'react-native-maps-directions';
+import {Context as RunRouteContext} from '../context/RunRouteContext';
 
 const {height, width} = Dimensions.get('window');
 const BEARING = 0;
@@ -10,14 +11,8 @@ const DISTANCE = 0.8; //meters
 const eRADIUS = 6371; //Earth's Radius in meters
 
 const Map = () => {
-    const initialLocation = {
-        longitude: -122.0312186,
-        latitude: 37.33233141,
-    };
-
-    const [destination, setDestination] = useState(null);
-
-    
+    const {state, markEnd} = useContext(RunRouteContext)
+    console.log(state);
 
     useEffect(() => {
         const findDestination = (bearing, distance, startLat, startLng) => {
@@ -34,13 +29,13 @@ const Map = () => {
             destLat = destLat * 180/Math.PI;
             destLng = destLng * 180/Math.PI;
     
-            setDestination({
+            markEnd({
                 latitude: destLat,
                 longitude: destLng
             })
         }
 
-        findDestination(0, 800, initialLocation.latitude, initialLocation.longitude);
+        findDestination(0, 800, state.startPos.latitude, state.startPos.longitude);
     }, []);
     
     return (
@@ -48,20 +43,20 @@ const Map = () => {
             provider={PROVIDER_GOOGLE}
             style={{height: height, width: width}}
             initialRegion={{
-                ...initialLocation,
+                ...state.startPos,
                 latitudeDelta: 0.01,
                 longitudeDelta: 0.01
             }}
         >
             <Marker
-                coordinate={initialLocation}
+                coordinate={state.startPos}
             />
             <Marker 
-                coordinate={destination}
+                coordinate={state.endPos}
             />
             <MapViewDirections
-                origin={initialLocation}
-                destination={destination}
+                origin={state.startPos}
+                destination={state.endPos}
                 apikey={GOOGLE_MAPS_API_KEY}
                 mode="WALKING"
                 strokeWidth={3}
