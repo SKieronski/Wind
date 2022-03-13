@@ -7,42 +7,68 @@ import { Accuracy,
     watchPositionAsync,
     getCurrentPositionAsync } from 'expo-location';
 import { Context as RunRouteContext } from '../context/RunRouteContext';
+import { Feather } from '@expo/vector-icons'; 
 
 const RunRouteCreateScreen = ({navigation}) => {
     //User Location setup
-    const {markCurrentPos, markStart} = useContext(RunRouteContext) 
+    const {markCurrentPos, markStart, state, changeLoading} = useContext(RunRouteContext) 
     const [err, setErr] = useState(null);
-    const startWatching = async () => {
-        try {
-            await requestForegroundPermissionsAsync();
-            let cLocation = await getCurrentPositionAsync();
-            markStart({latitude: cLocation.coords.latitude, longitude: cLocation.coords.longitude});
+    // const startWatching = async () => {
+    //     try {
+    //         await requestForegroundPermissionsAsync();
+    //         let cLocation = await getCurrentPositionAsync();
+    //         markStart({latitude: cLocation.coords.latitude, longitude: cLocation.coords.longitude});
 
-            await watchPositionAsync(
-                {
-                    accuracy: Accuracy.BestForNavigation,
-                    timeInterval: 1000,
-                    distanceInterval: 10
-                },
-                location => {
-                    //Object with coords property that has latitude and longitude keys
-                    //{coords: {latitude: float, longitude: float}}
-                    markCurrentPos({latitude: location.coords.latitude, longitude: location.coords.longitude})
-                }
-            )
-        } catch (e) {
-            setErr(e);
-        }
-    }
+    //         await watchPositionAsync(
+    //             {
+    //                 accuracy: Accuracy.BestForNavigation,
+    //                 timeInterval: 1000,
+    //                 distanceInterval: 10
+    //             },
+    //             location => {
+    //                 //Object with coords property that has latitude and longitude keys
+    //                 //{coords: {latitude: float, longitude: float}}
+    //                 markCurrentPos({latitude: location.coords.latitude, longitude: location.coords.longitude})
+    //             }
+    //         )
+    //     } catch (e) {
+    //         setErr(e);
+    //     }
+    // }
 
     useEffect(() => {
+        const startWatching = async () => {
+            try {
+                await requestForegroundPermissionsAsync();
+                let cLocation = await getCurrentPositionAsync();
+                markStart({latitude: cLocation.coords.latitude, longitude: cLocation.coords.longitude});
+    
+                await watchPositionAsync(
+                    {
+                        accuracy: Accuracy.BestForNavigation,
+                        timeInterval: 1000,
+                        distanceInterval: 10
+                    },
+                    location => {
+                        //Object with coords property that has latitude and longitude keys
+                        //{coords: {latitude: float, longitude: float}}
+                        markCurrentPos(location)
+                        changeLoading(false);
+                    }
+                )
+            } catch (e) {
+                setErr(e);
+            }
+        }
         startWatching();
     }, [])
 
     return (
         <SafeAreaView style={styles.container}>
-            <Map />
-            {/* <Text style={styles.text}>TEXT TEXT TEXT TEXT</Text> */}
+            {state.loading ? 
+                <Feather name="loader" size={60} color="black" style={styles.icon} /> :
+                <Map />
+            }
             {err ? <Text style={styles.text}>Please enable location services</Text> : null}
         </SafeAreaView>
     )
@@ -57,7 +83,13 @@ const styles = StyleSheet.create({
         fontSize: 30,
         position: 'absolute',
         alignSelf: 'center',
-        backgroundColor: 'white'
+        backgroundColor: 'white',
+        top: 500,
+        color: 'red'
+    },
+    icon: {
+        alignSelf: 'center',
+        marginTop: 350,
     }
 })
 

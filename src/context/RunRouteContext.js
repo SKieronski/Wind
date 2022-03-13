@@ -4,13 +4,15 @@ import createDataContext from './createDataContext'
 // Actions should be markStart, markEnd, changeDistance, changeBearing
 const runRouteReducer = (state, action) => {
     switch(action.type) {
+        case 'change_loading':
+            return {...state, loading: action.payload}
         case 'change_bearing':
             return {...state, bearing: action.payload}
         case 'change_title':
             return {...state, title: action.payload}
         case 'change_distance':
             return {...state, distance: action.payload}
-        case 'mark_current_loc':
+        case 'mark_current_pos':
             return {...state, currentPos: action.payload}
         case 'mark_end':
             return {...state, endPos: action.payload};
@@ -26,6 +28,12 @@ const runRouteReducer = (state, action) => {
             };
         default:
             return state;
+    }
+}
+
+const changeLoading = (dispatch) => {
+    return (bool) => {
+        dispatch({type: 'change_loading', payload: bool})
     }
 }
 
@@ -73,6 +81,6 @@ const changeTitle = (dispatch) => {
 
 export const {Context, Provider} = createDataContext(
     runRouteReducer,
-    {reset, markStart, markEnd, markCurrentPos,changeDistance, changeBearing, changeTitle},
-    {title: '', startPos: null, endPos: null, currentPos: null ,distance: null, bearing: null}
+    {reset, markStart, markEnd, markCurrentPos,changeDistance, changeBearing, changeTitle, changeLoading},
+    {title: '', startPos: null, endPos: null, currentPos: null ,distance: null, bearing: null, loading: true}
 )

@@ -1,7 +1,7 @@
 import {GOOGLE_MAPS_API_KEY} from '@env'
 import React, {useContext, useEffect, useState} from 'react';
 import { StyleSheet, Dimensions } from 'react-native';
-import MapView, {PROVIDER_GOOGLE, Marker} from 'react-native-maps';
+import MapView, {PROVIDER_GOOGLE, Marker, Circle} from 'react-native-maps';
 import MapViewDirections from 'react-native-maps-directions';
 import {Context as RunRouteContext} from '../context/RunRouteContext';
 
@@ -37,7 +37,7 @@ const Map = () => {
 
         findDestination(0, 800, state.startPos.latitude, state.startPos.longitude);
     }, []);
-    
+    console.log(state)
     return (
         <MapView
             provider={PROVIDER_GOOGLE}
@@ -53,6 +53,12 @@ const Map = () => {
             />
             <Marker 
                 coordinate={state.endPos}
+            />
+            <Circle
+                center={state.currentPos.coords}
+                radius={20}
+                strokeColor="rgba(158,158,255,1.0)"
+                fillColor="rgba(158,158,255,0.3)"
             />
             <MapViewDirections
                 origin={state.startPos}
