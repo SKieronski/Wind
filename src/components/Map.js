@@ -6,13 +6,9 @@ import MapViewDirections from 'react-native-maps-directions';
 import {Context as RunRouteContext} from '../context/RunRouteContext';
 
 const {height, width} = Dimensions.get('window');
-const BEARING = 0;
-const DISTANCE = 0.8; //meters
-const eRADIUS = 6371; //Earth's Radius in meters
 
 const Map = () => {
     const {state, markEnd} = useContext(RunRouteContext)
-    console.log(state);
 
     useEffect(() => {
         const findDestination = (bearing, distance, startLat, startLng) => {
@@ -37,7 +33,6 @@ const Map = () => {
 
         findDestination(0, 800, state.startPos.latitude, state.startPos.longitude);
     }, []);
-    console.log(state)
     return (
         <MapView
             provider={PROVIDER_GOOGLE}

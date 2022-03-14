@@ -5,36 +5,16 @@ import Map from '../components/Map';
 import { Accuracy, 
     requestForegroundPermissionsAsync, 
     watchPositionAsync,
-    getCurrentPositionAsync } from 'expo-location';
+    getCurrentPositionAsync 
+} from 'expo-location';
 import { Context as RunRouteContext } from '../context/RunRouteContext';
 import { Feather } from '@expo/vector-icons'; 
+import MyModal from '../components/MyModal';
 
 const RunRouteCreateScreen = ({navigation}) => {
     //User Location setup
     const {markCurrentPos, markStart, state, changeLoading} = useContext(RunRouteContext) 
     const [err, setErr] = useState(null);
-    // const startWatching = async () => {
-    //     try {
-    //         await requestForegroundPermissionsAsync();
-    //         let cLocation = await getCurrentPositionAsync();
-    //         markStart({latitude: cLocation.coords.latitude, longitude: cLocation.coords.longitude});
-
-    //         await watchPositionAsync(
-    //             {
-    //                 accuracy: Accuracy.BestForNavigation,
-    //                 timeInterval: 1000,
-    //                 distanceInterval: 10
-    //             },
-    //             location => {
-    //                 //Object with coords property that has latitude and longitude keys
-    //                 //{coords: {latitude: float, longitude: float}}
-    //                 markCurrentPos({latitude: location.coords.latitude, longitude: location.coords.longitude})
-    //             }
-    //         )
-    //     } catch (e) {
-    //         setErr(e);
-    //     }
-    // }
 
     useEffect(() => {
         const startWatching = async () => {
@@ -67,7 +47,10 @@ const RunRouteCreateScreen = ({navigation}) => {
         <SafeAreaView style={styles.container}>
             {state.loading ? 
                 <Feather name="loader" size={60} color="black" style={styles.icon} /> :
-                <Map />
+                <>
+                    <Map />
+                    <MyModal />
+                </>
             }
             {err ? <Text style={styles.text}>Please enable location services</Text> : null}
         </SafeAreaView>

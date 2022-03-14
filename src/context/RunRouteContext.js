@@ -4,6 +4,8 @@ import createDataContext from './createDataContext'
 // Actions should be markStart, markEnd, changeDistance, changeBearing
 const runRouteReducer = (state, action) => {
     switch(action.type) {
+        case 'change_modal_visibility':
+            return {...state, modalVisible: action.payload}
         case 'change_loading':
             return {...state, loading: action.payload}
         case 'change_bearing':
@@ -79,8 +81,14 @@ const changeTitle = (dispatch) => {
     }
 }
 
+const changeModalVisible = (dispatch) => {
+    return (visible) => {
+        dispatch({type: 'change_modal_visibility', payload:visible})
+    }
+}
+
 export const {Context, Provider} = createDataContext(
     runRouteReducer,
-    {reset, markStart, markEnd, markCurrentPos,changeDistance, changeBearing, changeTitle, changeLoading},
-    {title: '', startPos: null, endPos: null, currentPos: null ,distance: null, bearing: null, loading: true}
+    {changeModalVisible, reset, markStart, markEnd, markCurrentPos,changeDistance, changeBearing, changeTitle, changeLoading},
+    {title: '', startPos: null, endPos: null, currentPos: null ,distance: null, bearing: null, loading: true, modalVisible: false}
 )
