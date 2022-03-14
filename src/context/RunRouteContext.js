@@ -90,5 +90,5 @@ const changeModalVisible = (dispatch) => {
 export const {Context, Provider} = createDataContext(
     runRouteReducer,
     {changeModalVisible, reset, markStart, markEnd, markCurrentPos,changeDistance, changeBearing, changeTitle, changeLoading},
-    {title: '', startPos: null, endPos: null, currentPos: null ,distance: null, bearing: null, loading: true, modalVisible: false}
+    {title: '', startPos: null, endPos: null, currentPos: null , distance: null, bearing: null, loading: true, modalVisible: false}
 )

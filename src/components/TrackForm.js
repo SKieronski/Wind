@@ -3,9 +3,10 @@ import {StyleSheet} from 'react-native'
 import {Text, Button, Input} from 'react-native-elements'
 import Spacer from "./Spacer";
 import {Context as RunRouteContext} from '../context/RunRouteContext'
+import useConvertDirection from "../hooks/useConvertDirection";
 
 const TrackForm = () => {
-    const {changeBearing, changeDistance} = useContext(RunRouteContext);
+    const {changeBearing, changeDistance, changeModalVisible} = useContext(RunRouteContext);
     const [distance, setDistance] = useState(null);
     const [bearing, setBearing] = useState(null);
 
@@ -39,8 +40,16 @@ const TrackForm = () => {
                 <Button
                     title="Submit"
                     onPress={() => {
+                        // let d = parseInt(distance)
+                        // let b = parseInt(bearing)
+                        console.log('-----------------------------')
+                        console.log(bearing)
+                        let newB = useConvertDirection(bearing);
+                        console.log(newB)
+                        console.log('-----------------------------')
                         changeDistance(distance);
-                        changeBearing(bearing);
+                        changeBearing(newB);
+                        changeModalVisible(false);
                     }}
                 />
             </Spacer>

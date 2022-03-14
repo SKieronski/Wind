@@ -41,6 +41,12 @@ const RunRouteCreateScreen = ({navigation}) => {
             }
         }
         startWatching();
+
+        return () => {
+            if(subscriber) {
+                subscriber.remove()
+            }
+        }
     }, [])
 
     return (

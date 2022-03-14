@@ -25,7 +25,7 @@ const MyModal = () => {
                             changeModalVisible(!state.modalVisible)
                         }}
                     >
-                        <Text>Hide Modal</Text>
+                        <Text style={{color: 'blue'}}>Hide</Text>
                     </Pressable>
                 </View>
                 
@@ -53,13 +53,6 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.25,
         shadowRadius: 4,
         elevation: 5
-    },
-    buttonPlus: {
-        borderRadius: 20,
-        // padding: 10,
-        backgroundColor: 'white',
-        top: 330,
-        left: 300
     }
 })
 

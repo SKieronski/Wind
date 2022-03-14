@@ -9,7 +9,7 @@ const {height, width} = Dimensions.get('window');
 
 const Map = () => {
     const {state, markEnd} = useContext(RunRouteContext)
-
+    console.log(state);
     useEffect(() => {
         const findDestination = (bearing, distance, startLat, startLng) => {
             const toRadsLat = startLat * Math.PI/180;
@@ -30,9 +30,11 @@ const Map = () => {
                 longitude: destLng
             })
         }
+        if(state.bearing && state.distance) {
+            findDestination(state.bearing, state.distance, state.startPos.latitude, state.startPos.longitude);
+        }
+    }, [state.distance, state.bearing]);
 
-        findDestination(0, 800, state.startPos.latitude, state.startPos.longitude);
-    }, []);
     return (
         <MapView
             provider={PROVIDER_GOOGLE}
@@ -46,23 +48,21 @@ const Map = () => {
             <Marker
                 coordinate={state.startPos}
             />
-            <Marker 
-                coordinate={state.endPos}
-            />
+            {state.endPos ? <Marker coordinate={state.endPos} /> : null}
             <Circle
                 center={state.currentPos.coords}
                 radius={20}
                 strokeColor="rgba(158,158,255,1.0)"
-                fillColor="rgba(158,158,255,0.3)"
+                fillColor="rgba(158,158,255,0.6)"
             />
-            <MapViewDirections
+            {state.endPos ? <MapViewDirections
                 origin={state.startPos}
                 destination={state.endPos}
                 apikey={GOOGLE_MAPS_API_KEY}
                 mode="WALKING"
                 strokeWidth={3}
                 strokeColor="rgba(0,0,255,1)"
-            />
+            /> : null }
         </MapView>
     )
 }
