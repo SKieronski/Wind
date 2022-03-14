@@ -1,5 +1,5 @@
 import {GOOGLE_MAPS_API_KEY} from '@env'
-import React, {useContext, useEffect, useState} from 'react';
+import React, {useContext, useEffect} from 'react';
 import { StyleSheet, Dimensions } from 'react-native';
 import MapView, {PROVIDER_GOOGLE, Marker, Circle} from 'react-native-maps';
 import MapViewDirections from 'react-native-maps-directions';
@@ -9,7 +9,7 @@ const {height, width} = Dimensions.get('window');
 
 const Map = () => {
     const {state, markEnd} = useContext(RunRouteContext)
-    console.log(state);
+
     useEffect(() => {
         const findDestination = (bearing, distance, startLat, startLng) => {
             const toRadsLat = startLat * Math.PI/180;
@@ -41,19 +41,25 @@ const Map = () => {
             style={{height: height, width: width}}
             initialRegion={{
                 ...state.startPos,
-                latitudeDelta: 0.01,
-                longitudeDelta: 0.01
+                latitudeDelta: 0.02,
+                longitudeDelta: 0.02
             }}
         >
-            <Marker
-                coordinate={state.startPos}
-            />
-            {state.endPos ? <Marker coordinate={state.endPos} /> : null}
+            {state.endPos ? 
+                <>
+                    <Marker title='end' coordinate={state.endPos} identifier="markerE" /> 
+                    <Marker
+                        title='start'
+                        coordinate={state.startPos}
+                        identifier={'markerS'}
+                    />
+                </>
+                : null}
             <Circle
                 center={state.currentPos.coords}
-                radius={20}
+                radius={30}
                 strokeColor="rgba(158,158,255,1.0)"
-                fillColor="rgba(158,158,255,0.6)"
+                fillColor="rgba(158,158,255,0.5)"
             />
             {state.endPos ? <MapViewDirections
                 origin={state.startPos}

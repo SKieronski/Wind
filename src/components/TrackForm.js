@@ -40,13 +40,7 @@ const TrackForm = () => {
                 <Button
                     title="Submit"
                     onPress={() => {
-                        // let d = parseInt(distance)
-                        // let b = parseInt(bearing)
-                        console.log('-----------------------------')
-                        console.log(bearing)
                         let newB = useConvertDirection(bearing);
-                        console.log(newB)
-                        console.log('-----------------------------')
                         changeDistance(distance);
                         changeBearing(newB);
                         changeModalVisible(false);

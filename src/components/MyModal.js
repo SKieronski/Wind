@@ -6,8 +6,7 @@ import TrackForm from './TrackForm'
 
 const MyModal = () => {
     const {state, changeModalVisible} = useContext(RunRouteContext)
-    // const {state} = useContext(ModalContext)
-    console.log(state)
+    
     return(
         <View style={styles.container}>
             <Modal 

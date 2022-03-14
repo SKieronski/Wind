@@ -49,7 +49,6 @@ const MyTabs = () => {
                     return (
                         <>
                             <Pressable onPress={() => {
-                                console.log("clicked plus button")
                                 changeModalVisible(true)
                             }}>
                                 <Entypo name="plus" size={30} color="rgb(158,158,255)" />
