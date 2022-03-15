@@ -16,6 +16,13 @@ import {Context as ApiContext} from '../context/apiContext'
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 
+//Details Screen needs to be a stack screen
+const MyDetails = () => {
+    <Stack.Navigator>
+        <Stack.Screen name="RunRoutesDetails" component = {RunRoutesDetailsScreen} />
+    </Stack.Navigator>
+}
+
 //Make a group of screens that use Tab Navigation to be children of the Stack Navigator
 const MyTabs = () => {
     const {changeModalVisible, state} = useContext(RunRouteContext)
@@ -31,6 +38,8 @@ const MyTabs = () => {
                     return <FontAwesome5 name="list" size={size} color={color} />
                 case 'RunRouteCreate':
                     return <FontAwesome5 name="wind" size={size} color={color} />;
+                case 'RunRoutesDetails':
+                    return null
                 default:
                     return <FontAwesome5 name="wind" size={size} color={color} />;
             }
@@ -67,7 +76,6 @@ const MyTabs = () => {
                                     })
                                     setStarState(!starState)
                                 } else {
-                                    console.log("YUH")
                                     await fetchOneRouteAndDelete({
                                         title: state.title, 
                                         distance: state.distance,
@@ -75,7 +83,6 @@ const MyTabs = () => {
                                         endPos: state.endPos
                                     })
                                     setStarState(!starState)
-                                    // delete route
                                 }
                             }}>
                                 {!starState ? 
@@ -91,6 +98,13 @@ const MyTabs = () => {
                     alignItems:'center',
                     justifyContent:'space-evenly',
                 }
+            }}
+        />
+        <Tab.Screen 
+            name="RunRoutesDetails" 
+            component = {RunRoutesDetailsScreen} 
+            options={{
+                tabBarButton: () => null,
             }}
         />
       </Tab.Navigator>
@@ -114,7 +128,6 @@ const AppScreens = () => {
             ) : (
                 <>
                     <Stack.Screen name="LoggedIn" component={MyTabs} options={{headerShown:false}} />
-                    <Stack.Screen name="RunRoutesDetails" component = {RunRoutesDetailsScreen} />
                 </>
             )}
         </Stack.Navigator>

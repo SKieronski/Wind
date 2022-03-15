@@ -1,12 +1,17 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import {View, Text, StyleSheet} from 'react-native';
-import { Button } from 'react-native-elements';
-const RunRoutesDetailsScreen = ({navigation}) => {
+import {Context as ApiContext} from '../context/apiContext'
+import Map from '../components/Map';
+
+const RunRoutesDetailsScreen = ({navigation, route}) => {
+    const {state} = useContext(ApiContext)
+    const myID = route.params._id
+    const myRoute = state.find((route) => route._id === myID) 
+    console.log(myRoute)
     return (
-        <View >
-            <Text>RunRoutesDetailsScreen</Text>
-            <Button title="GOTO List" onPress={() => navigation.navigate('RunRoutesList')} />
-        </View>
+        <>
+            <Map startPos={myRoute.startPos} endPos={myRoute.endPos}/>
+        </>
     )
 }
 
