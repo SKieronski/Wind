@@ -2,11 +2,10 @@ import React, { useContext } from 'react'
 import {Modal, StyleSheet, Pressable, View} from 'react-native'
 import { Text } from 'react-native-elements'
 import { Context as RunRouteContext } from '../context/RunRouteContext'
-import TrackForm from './TrackForm'
+import CreateRouteForm from './CreateRouteForm'
 
 const MyModal = () => {
     const {state, changeModalVisible} = useContext(RunRouteContext)
-    
     return(
         <View style={styles.container}>
             <Modal 
@@ -18,7 +17,7 @@ const MyModal = () => {
                 }}
             >
                 <View style={styles.modalView}>
-                    <TrackForm />
+                    <CreateRouteForm />
                     <Pressable
                         onPress={()=> {
                             changeModalVisible(!state.modalVisible)
@@ -39,7 +38,7 @@ const styles = StyleSheet.create({
     },
     modalView: {
         margin: 20,
-        marginTop: 200,
+        marginTop: 150,
         backgroundColor: "white",
         borderRadius: 20,
         padding: 35,

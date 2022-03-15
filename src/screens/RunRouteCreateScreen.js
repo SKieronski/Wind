@@ -15,15 +15,16 @@ const RunRouteCreateScreen = ({navigation}) => {
     //User Location setup
     const {markCurrentPos, markStart, state, changeLoading} = useContext(RunRouteContext) 
     const [err, setErr] = useState(null);
-
+    
     useEffect(() => {
+        let subscriber = null;
         const startWatching = async () => {
             try {
                 await requestForegroundPermissionsAsync();
                 let cLocation = await getCurrentPositionAsync();
                 markStart({latitude: cLocation.coords.latitude, longitude: cLocation.coords.longitude});
     
-                await watchPositionAsync(
+                subscriber = await watchPositionAsync(
                     {
                         accuracy: Accuracy.BestForNavigation,
                         timeInterval: 1000,

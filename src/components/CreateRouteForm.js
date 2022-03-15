@@ -5,16 +5,28 @@ import Spacer from "./Spacer";
 import {Context as RunRouteContext} from '../context/RunRouteContext'
 import useConvertDirection from "../hooks/useConvertDirection";
 
-const TrackForm = () => {
-    const {changeBearing, changeDistance, changeModalVisible} = useContext(RunRouteContext);
+const CreateRouteForm = () => {
+    const {changeBearing, changeDistance, changeModalVisible, changeTitle} = useContext(RunRouteContext);
     const [distance, setDistance] = useState(null);
     const [bearing, setBearing] = useState(null);
-
+    const [title, setTitle] = useState(null);
+    
     return (
         <>
             <Spacer>
                 <Text h3>Create a Route</Text>
             </Spacer>
+                <Input 
+                    label="Title"
+                    placeholder="My Route Name"
+                    value={title}
+                    onChangeText={(newTitle) => {
+                        setTitle(newTitle);
+                    }}
+                    autoCapitalize="none"
+                    autoCorrect={false}
+                />
+            <Spacer />
                 <Input 
                     label="Distance"
                     placeholder="Meters"
@@ -28,7 +40,7 @@ const TrackForm = () => {
             <Spacer />
                 <Input 
                     label="Bearing"
-                    placeholder="Direction EX: N or North"
+                    placeholder="N or North"
                     value={bearing}
                     onChangeText={(newBearing) => {
                         setBearing(newBearing);
@@ -43,6 +55,7 @@ const TrackForm = () => {
                         let newB = useConvertDirection(bearing);
                         changeDistance(distance);
                         changeBearing(newB);
+                        changeTitle(title);
                         changeModalVisible(false);
                     }}
                 />
@@ -54,4 +67,4 @@ const TrackForm = () => {
 const styles = StyleSheet.create({
 })
 
-export default TrackForm
+export default CreateRouteForm

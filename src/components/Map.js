@@ -15,11 +15,12 @@ const Map = () => {
             const toRadsLat = startLat * Math.PI/180;
             const toRadsLng = startLng * Math.PI/180;
             const eRadius = 6371e3; //earth's radius in meters
-    
+            const bearingToRads = bearing * Math.PI / 180;
+
             let destLat = Math.asin((Math.sin(toRadsLat) * Math.cos(distance/eRadius)) 
-                + (Math.cos(toRadsLat) * Math.sin(distance/eRadius) * Math.cos(bearing)));
+                + (Math.cos(toRadsLat) * Math.sin(distance/eRadius) * Math.cos(bearingToRads)));
     
-            let destLng = toRadsLng + Math.atan2(Math.sin(bearing)*Math.sin(distance/eRadius)*Math.cos(toRadsLat) , 
+            let destLng = toRadsLng + Math.atan2(Math.sin(bearingToRads)*Math.sin(distance/eRadius)*Math.cos(toRadsLat) , 
             Math.cos(distance/eRadius) - Math.sin(toRadsLat) * Math.sin(destLat));
     
             destLat = destLat * 180/Math.PI;

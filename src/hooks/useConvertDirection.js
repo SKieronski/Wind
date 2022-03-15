@@ -1,7 +1,12 @@
 import React from 'react';
 
 export default (direction) => {
-    const lowerCaseDirection = direction.toLowerCase();
+    let lowerCaseDirection = ""
+    
+    if(direction) {
+        lowerCaseDirection = direction.toLowerCase();
+    }
+    
     switch(lowerCaseDirection) {
         case 'n':
         case 'north':
@@ -27,5 +32,7 @@ export default (direction) => {
         case 'nw':
         case 'north west':
             return "-45"
+        default:
+            return "0"
     }
 }

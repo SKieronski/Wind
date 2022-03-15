@@ -1,4 +1,4 @@
-import React, {useContext, useEffect} from 'react'
+import React, {useContext, useEffect, useState} from 'react'
 import RunRouteCreateScreen from "./RunRouteCreateScreen"
 import RunRoutesDetailsScreen from "./RunRoutesDetailsScreen"
 import RunRoutesListScreen from "./RunRoutesListScreen"
@@ -11,13 +11,17 @@ import { FontAwesome5 } from '@expo/vector-icons';
 import { Pressable, View } from 'react-native';
 import { Entypo } from '@expo/vector-icons';
 import { Context as RunRouteContext } from '../context/RunRouteContext'
+import {Context as ApiContext} from '../context/apiContext'
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 
 //Make a group of screens that use Tab Navigation to be children of the Stack Navigator
 const MyTabs = () => {
-    const {changeModalVisible} = useContext(RunRouteContext)
+    const {changeModalVisible, state} = useContext(RunRouteContext)
+    const {createRoute, fetchOneRouteAndDelete, state: apiState} = useContext(ApiContext)
+    const [starState, setStarState] = useState(false)
+
     return (
       <Tab.Navigator 
       screenOptions={({ route }) => ({
@@ -53,8 +57,31 @@ const MyTabs = () => {
                             }}>
                                 <Entypo name="plus" size={30} color="rgb(158,158,255)" />
                             </Pressable>
-                            <Pressable >
-                                <Entypo name="star-outlined" size={30} color="rgb(158,158,255)" />
+                            <Pressable onPress={async () => {
+                                if(!starState) {
+                                    createRoute({
+                                        title: state.title, 
+                                        distance: state.distance,
+                                        startPos: state.startPos,
+                                        endPos: state.endPos
+                                    })
+                                    setStarState(!starState)
+                                } else {
+                                    console.log("YUH")
+                                    await fetchOneRouteAndDelete({
+                                        title: state.title, 
+                                        distance: state.distance,
+                                        startPos: state.startPos,
+                                        endPos: state.endPos
+                                    })
+                                    setStarState(!starState)
+                                    // delete route
+                                }
+                            }}>
+                                {!starState ? 
+                                    <Entypo name="star-outlined" size={30} color="rgb(158,158,255)" />
+                                    : <Entypo name="star" size={30} color="rgb(158,158,255)" />
+                                }
                             </Pressable>
                         </>
                     )

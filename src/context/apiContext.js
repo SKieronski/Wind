@@ -10,6 +10,24 @@ const apiReducer = (state,action) => {
     }
 }
 
+const fetchOneRouteAndDelete = (dispatch) => {
+    return async ({title, distance, startPos, endPos}) => {
+        console.log("YO")
+        const response = await windApi.get('/runroutes/one', 
+            {
+                params: {
+                    title: title, 
+                    distance: distance, 
+                    startPos: startPos, 
+                    endPos: endPos
+                }
+            }
+        );
+        console.log(response.data)
+        await windApi.delete(`/runroutes/${response.data._id}`)
+    }
+}
+
 const fetchRoutes = (dispatch) => {
     return async () => {
         const response = await windApi.get('/runroutes')
@@ -18,13 +36,26 @@ const fetchRoutes = (dispatch) => {
 }
 
 const createRoute = (dispatch) => {
-    return async (title, distance, startPos, endPos) => {
-        await windApi.post('/tracks', {title, distance, startPos, endPos})
+    return async ({title, distance, startPos, endPos}) => {
+        await windApi.post('/runroutes', 
+            {
+                title: title, 
+                distance: distance, 
+                startPos: startPos, 
+                endPos: endPos
+            }
+        );
+    }
+}
+
+const deleteRoute = (dispatch) => {
+    return async () => {
+        await windApi.delete('/runroutes/:id')
     }
 }
 
 export const {Provider, Context} = createDataContext(
     apiReducer,
-    {fetchRoutes, createRoute},
+    {fetchRoutes, createRoute, deleteRoute, fetchOneRouteAndDelete},
     []
 )
