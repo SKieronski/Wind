@@ -1,16 +1,14 @@
 import React, {useContext, useEffect, useState} from 'react';
-import {View, Text, StyleSheet, FlatList, TouchableOpacity} from 'react-native';
-import { Button, ListItem } from 'react-native-elements';
-import {Context as AuthContext} from '../context/AuthContext'
+import {View, Text, StyleSheet, FlatList, TouchableOpacity, Pressable} from 'react-native';
+import { ListItem } from 'react-native-elements';
 import {Context as ApiContext} from '../context/apiContext'
 import { Feather } from '@expo/vector-icons'; 
 import { useIsFocused } from '@react-navigation/native';
-import { ScrollView } from 'react-native-gesture-handler';
 
 const RunRoutesListScreen = ({navigation}) => {
-    const {signout} = useContext(AuthContext)
-    const {fetchRoutes, state} = useContext(ApiContext)
+    const {fetchRoutes, state, deleteRoute} = useContext(ApiContext)
     const [loading, setLoading] = useState(true)
+    const [refresh, setRefresh] = useState(false)
     const focused = useIsFocused()
 
     useEffect(()=> {
@@ -20,7 +18,7 @@ const RunRoutesListScreen = ({navigation}) => {
         } else {
             setLoading(true)
         }
-    }, [focused])
+    }, [focused, refresh])
 
     return (
         <View >
@@ -31,22 +29,29 @@ const RunRoutesListScreen = ({navigation}) => {
                     keyExtractor={(item) => item._id}
                     renderItem={({ item }) => {
 		                return (
-		                    <TouchableOpacity onPress={()=> {
-                                    navigation.navigate('RunRoutesDetails', {_id: item._id});
-                                }}
-                            >
-		                    <ListItem>
-		                        <ListItem.Content>
-		                            <ListItem.Title>{item.title}</ListItem.Title>
-		                        </ListItem.Content>
-		                        <ListItem.Chevron />
-		                    </ListItem>
-		                </TouchableOpacity>
+                            <>
+                                <TouchableOpacity onPress={()=> {
+                                        navigation.navigate('RunRoutesDetails', {_id: item._id});
+                                    }}
+                                >
+                                    <ListItem>
+                                        <ListItem.Content>
+                                            <ListItem.Title>{item.title}</ListItem.Title>
+                                        </ListItem.Content>
+                                        <Pressable onPress={async ()=>{
+                                            await deleteRoute(item._id)
+                                            setRefresh(!refresh)
+                                        }}>
+                                            <Feather name="delete" size={24} color="red" />
+                                        </Pressable>
+                                    </ListItem>    
+                                </TouchableOpacity>
+                                
+                            </>
 		            );
 		        }}
 		    />
             }
-            <Button title="Logout" onPress={() => signout()} />
         </View>
     )
 }

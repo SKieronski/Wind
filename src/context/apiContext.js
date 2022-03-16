@@ -3,6 +3,8 @@ import windApi from '../api/windApi'
 
 const apiReducer = (state,action) => {
     switch(action.type) {
+        case 'delete_blogpost':
+            return state.filter((blogPost) => blogPost.id !== action.payload);
         case 'fetch_routes':
             return action.payload;
         default:
@@ -12,7 +14,6 @@ const apiReducer = (state,action) => {
 
 const fetchOneRouteAndDelete = (dispatch) => {
     return async ({title, distance, startPos, endPos}) => {
-        console.log("YO")
         const response = await windApi.get('/runroutes/one', 
             {
                 params: {
@@ -23,7 +24,6 @@ const fetchOneRouteAndDelete = (dispatch) => {
                 }
             }
         );
-        console.log(response.data)
         await windApi.delete(`/runroutes/${response.data._id}`)
     }
 }
@@ -49,8 +49,9 @@ const createRoute = (dispatch) => {
 }
 
 const deleteRoute = (dispatch) => {
-    return async () => {
-        await windApi.delete('/runroutes/:id')
+    return async (id) => {
+        await windApi.delete(`/runroutes/${id}`)
+        dispatch({type: 'delete_blogpost', payload: id})
     }
 }
 

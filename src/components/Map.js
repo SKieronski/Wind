@@ -10,7 +10,6 @@ const {height, width} = Dimensions.get('window');
 const Map = ({startPos, endPos}) => {
     const {state} = useContext(RunRouteContext)
     
-
     return (
         <MapView
             provider={PROVIDER_GOOGLE}
@@ -35,7 +34,7 @@ const Map = ({startPos, endPos}) => {
                 center={state.currentPos.coords}
                 radius={30}
                 strokeColor="rgba(158,158,255,1.0)"
-                fillColor="rgba(158,158,255,0.5)"
+                fillColor="rgba(158,158,255,0.4)"
             />
             {endPos ? <MapViewDirections
                 origin={startPos}

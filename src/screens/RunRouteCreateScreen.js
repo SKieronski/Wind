@@ -17,6 +17,7 @@ const RunRouteCreateScreen = ({navigation}) => {
     const [err, setErr] = useState(null);
     
     useEffect(() => {
+        changeLoading(true)
         let subscriber = null;
         const startWatching = async () => {
             try {

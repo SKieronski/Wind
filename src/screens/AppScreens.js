@@ -12,6 +12,8 @@ import { Pressable, View } from 'react-native';
 import { Entypo } from '@expo/vector-icons';
 import { Context as RunRouteContext } from '../context/RunRouteContext'
 import {Context as ApiContext} from '../context/apiContext'
+import AccountScreen from './AccountScreen'
+import { MaterialIcons } from '@expo/vector-icons';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -26,7 +28,7 @@ const MyDetails = () => {
 //Make a group of screens that use Tab Navigation to be children of the Stack Navigator
 const MyTabs = () => {
     const {changeModalVisible, state} = useContext(RunRouteContext)
-    const {createRoute, fetchOneRouteAndDelete, state: apiState} = useContext(ApiContext)
+    const {createRoute, fetchOneRouteAndDelete} = useContext(ApiContext)
     const [starState, setStarState] = useState(false)
 
     return (
@@ -34,6 +36,8 @@ const MyTabs = () => {
       screenOptions={({ route }) => ({
         tabBarIcon: ({ focused, color, size }) => {
             switch(route.name) {
+                case 'Account':
+                    return <MaterialIcons name="account-box" size={30} color={color} />
                 case 'RunRoutesList':
                     return <FontAwesome5 name="list" size={size} color={color} />
                 case 'RunRouteCreate':
@@ -48,12 +52,6 @@ const MyTabs = () => {
         tabBarInactiveTintColor: 'gray'
       })}
       >
-        <Tab.Screen name="RunRoutesList" component={RunRoutesListScreen} 
-            options={{
-                tabBarShowLabel: false,
-                headerTitle: 'My Routes'
-            }}
-        />
         <Tab.Screen name="RunRouteCreate" component = {RunRouteCreateScreen} 
             options={{
                 tabBarShowLabel: false,
@@ -63,6 +61,7 @@ const MyTabs = () => {
                         <>
                             <Pressable onPress={() => {
                                 changeModalVisible(true)
+                                setStarState(false)
                             }}>
                                 <Entypo name="plus" size={30} color="rgb(158,158,255)" />
                             </Pressable>
@@ -100,11 +99,29 @@ const MyTabs = () => {
                 }
             }}
         />
+        <Tab.Screen name="RunRoutesList" component={RunRoutesListScreen} 
+            options={{
+                tabBarShowLabel: false,
+                headerTitle: 'My Routes'
+            }}
+        />
+        <Tab.Screen name="Account" component={AccountScreen} 
+            options={{
+                tabBarShowLabel: false,
+                headerTitle: 'Profile'
+            }}
+        />
         <Tab.Screen 
             name="RunRoutesDetails" 
             component = {RunRoutesDetailsScreen} 
             options={{
                 tabBarButton: () => null,
+                tabBarShowLabel: false,
+                headerRightContainerStyle: {
+                    flexDirection: 'row',
+                    alignItems:'center',
+                    justifyContent:'space-evenly',
+                }
             }}
         />
       </Tab.Navigator>

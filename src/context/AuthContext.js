@@ -57,10 +57,7 @@ const tryLocalSignin = (dispatch) => {
         const token = await AsyncStorage.getItem('token');
         if(token){
             dispatch({type:'signin', payload: token})
-        } else {
-            console.log("Local Sign in no work")
         }
-
     }
 }
 

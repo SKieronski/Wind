@@ -15,7 +15,6 @@ const SignUpScreen = ({navigation}) => {
 
     return (
         <View style={styles.container} >
-            {/* <Button title="GOTO Signin" onPress={() => navigation.navigate('Signin')} /> */}
             <AuthForm
                 headerText = "Sign Up for Wind"
                 errorMessage={state.errorMessage}
