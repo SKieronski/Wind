@@ -34,7 +34,7 @@ const Map = ({startPos, endPos}) => {
                 center={state.currentPos.coords}
                 radius={30}
                 strokeColor="rgba(158,158,255,1.0)"
-                fillColor="rgba(158,158,255,0.4)"
+                fillColor="rgba(158,158,255,0.3)"
             />
             {endPos ? <MapViewDirections
                 origin={startPos}
