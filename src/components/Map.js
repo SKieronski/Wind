@@ -1,15 +1,13 @@
 import {GOOGLE_MAPS_API_KEY} from '@env'
 import React, {useContext, useEffect} from 'react';
-import { StyleSheet, Dimensions } from 'react-native';
+import { StyleSheet, Dimensions, Image } from 'react-native';
 import MapView, {PROVIDER_GOOGLE, Marker, Circle} from 'react-native-maps';
 import MapViewDirections from 'react-native-maps-directions';
 import {Context as RunRouteContext} from '../context/RunRouteContext';
-
 const {height, width} = Dimensions.get('window');
 
 const Map = ({startPos, endPos}) => {
     const {state} = useContext(RunRouteContext)
-    
     return (
         <MapView
             provider={PROVIDER_GOOGLE}
@@ -22,14 +20,22 @@ const Map = ({startPos, endPos}) => {
         >
             {endPos ? 
                 <>
-                    <Marker title='end' coordinate={endPos} identifier="markerE" /> 
+                    <Marker title='end' 
+                        coordinate={endPos} 
+                        identifier="markerE" 
+                    >
+                        <Image source={require('../../images/finish2.png')} style={{height:30, width: 35}}/>
+                    </Marker> 
                     <Marker
                         title='start'
                         coordinate={startPos}
                         identifier={'markerS'}
-                    />
+                    >
+                        <Image source={require('../../images/start.png')} style={{height:30, width: 35}}/>
+                    </Marker>
                 </>
-                : null}
+                : null
+            }
             <Circle
                 center={state.currentPos.coords}
                 radius={30}
