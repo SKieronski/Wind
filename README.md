@@ -3,7 +3,7 @@ Wind is a running app! Create a running route based on a given distance, directi
 
 ## Getting Started
 This is a React Native app built for iOS so it is not deployed...yet!
-Feel free to clone this repo and test it with your iOS or android simulators.
+Feel free to clone this repo and test it with your iOS or android simulators. I've been using XCode for testing on my Macbook and Expo GO for testing on my actual phone.
 
 ## Screenshots
 ![Create Screen](/images/CreateScreen.png)
